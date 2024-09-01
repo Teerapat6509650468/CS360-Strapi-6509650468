@@ -32,3 +32,47 @@ https://medium.com/@themaxaboy/%E0%B8%AD%E0%B8%AD%E0%B8%81%E0%B9%81%E0%B8%9A%E0%
 - [Introduction to the Content-type Builder](https://docs.strapi.io/user-docs/content-type-builder)<br>
 - [Introduction to the Content Manager](https://docs.strapi.io/user-docs/content-manager)<br>
 - [Managing content-types](https://docs.strapi.io/user-docs/content-type-builder/managing-content-types)<br>
+
+## ติดตั้ง Strapi
+**สิ่งที่ต้องติดตั้งก่อนการติดตั้ง Strapi**
+- Node.js v18 หรือ v20 (ในครั้งนี้เราเลือกใช้ v20) ตรวจสอบว่าติดตั้งแล้วโดยใช้คำสั่ง
+```
+node -v
+```
+- Node.js package manager ที่ต้องการ (ในที่นี้เราเลือกใช้ npm) ตรวจสอบว่าติดตั้งแล้วโดยใช้คำสั่ง
+```
+npm -v
+```
+*หมายเหตุ: หากเลือกใช้ npm จะต้องเป็น v6 หรือสูงกว่า*
+
+**ขั้นตอนการสร้างโปรเจคของ Strapi**
+1. เปืด Terminal
+2. cd ไปยังโฟลเดอร์ที่ต้องการ
+3. จากนั้นให้รันคำสั่งต่อไปนี้
+```
+npx create-strapi-app@latest my-project
+```
+4. เลือกประเภทการติดตั้ง
+   - Quickstart (recommended) จะใช้ฐานข้อมูลเริ่มต้น (SQLite)
+   - Custom (manual settings) จะเลือกฐานข้อมูลที่ต้องการได้<br>
+
+&nbsp; ในที่นี้เราเลือก "Quickstart (recommended)"
+
+5. จากนั้นจะปรากฏหน้าต่างแสดงว่า Start your 14-day free trial now! ให้เราเลือก Skip
+
+6. จากนั้นให้รันคำสั่งต่อไปนี้<br>
+```
+cd my-project
+```
+
+```
+npm install
+```
+
+```
+npx run develop
+```
+### แหล่งอ้างอิง
+- [Installing from CLI](https://docs.strapi.io/dev-docs/installation/cli)
+
+## นำโค้ดขึ้น GitHub
