@@ -50,17 +50,9 @@ npm -v
 2. `cd` ไปยังโฟลเดอร์ที่ต้องการ
 3. จากนั้นให้รันคำสั่งต่อไปนี้
 ```
-npx create-strapi-app@latest my-project
+npx create-strapi-app@latest my-project --quickstart
 ```
-4. เลือกประเภทการติดตั้ง
-   - `Quickstart (recommended)` จะใช้ฐานข้อมูลเริ่มต้น (SQLite)
-   - `Custom (manual settings)` จะเลือกฐานข้อมูลที่ต้องการได้<br>
-
-&nbsp; ในที่นี้เราเลือก `Quickstart (recommended)`
-
-5. จากนั้นจะปรากฏหน้าต่างแสดงว่า Start your 14-day free trial now! ให้เราเลือก `Skip`
-
-6. จากนั้นให้รันคำสั่งต่อไปนี้<br>
+4. จากนั้นให้รันคำสั่งต่อไปนี้<br>
 ```
 cd my-project
 ```
@@ -72,6 +64,7 @@ npm install
 ```
 npx run develop
 ```
+5. เข้า http://localhost:1337/admin/auth/login เพื่อทำการสมัครและล็อกอินเข้าใช้งานระบบ
 ### แหล่งอ้างอิง
 - [Installing from CLI](https://docs.strapi.io/dev-docs/installation/cli)
 
