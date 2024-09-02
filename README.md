@@ -69,14 +69,107 @@ npx run develop
 - [Installing from CLI](https://docs.strapi.io/dev-docs/installation/cli)
 
 ## นำโค้ดลง GitHub
-1. ในเทอร์มินัล ตรวจสอบว่ายังคงอยู่ในโฟลเดอร์ของโปรเจ็กต์ Strapi ที่เราสร้างขึ้น
-2. เรียกใช้คำสั่ง `git init` เพื่อเริ่มต้น git สำหรับโฟลเดอร์นี้
-3. เรียกใช้คำสั่ง `git add .` เพื่อเพิ่มไฟล์ที่แก้ไขทั้งหมดลงใน git
-4. เรียกใช้คำสั่ง `git commit -m "Initial commit"` เพื่อสร้างคอมมิตที่มีการเปลี่ยนแปลงที่เพิ่มเข้ามาทั้งหมด
+1. ในเทอร์มินัล ตรวจสอบว่ายังคงอยู่ในโฟลเดอร์ของโปรเจ็กต์ Strapi ที่สร้างขึ้น
+2. รันคำสั่ง `git init` เพื่อเริ่มต้น git สำหรับโฟลเดอร์นี้
+3. รันคำสั่ง `git add .` เพื่อเพิ่มไฟล์ที่แก้ไขทั้งหมดลงใน git
+4. รันคำสั่ง `git commit -m "Initial commit"` เพื่อสร้างคอมมิตที่มีการเปลี่ยนแปลงที่เพิ่มเข้ามาทั้งหมด
 5. เข้าสู่ระบบบัญชี GitHub ของคุณและสร้าง repository ใหม่
-6. กลับไปที่เทอร์มินัลและ push local repository ในเครื่องเราลง GitHub:
-   - เรียกใช้คำสั่งที่คล้ายกับต่อไปนี้: `git remote add origin https://github.com/Teerapat6509650468/CS360-Strapi-6509650468.git` โดยเปลี่ยนส่วน `https://github.com/Teerapat6509650468/CS360-Strapi-6509650468.git` เป็นลิ้งก์ repository ของเราแทน
-   - รันคำสั่ง `git push --set-upstream origin main` เพื่อส่งการคอมมิตไปยัง repository บน GitHub ของเรา
+6. กลับไปที่เทอร์มินัลและ push local repository ในเครื่องคุณลง GitHub:
+   - เรียกใช้คำสั่งที่คล้ายกับต่อไปนี้: `git remote add origin https://github.com/Teerapat6509650468/CS360-Strapi-6509650468.git` โดยเปลี่ยนส่วน `https://github.com/Teerapat6509650468/CS360-Strapi-6509650468.git` เป็นลิ้งก์ repository ของคุณแทน
+   - รันคำสั่ง `git push --set-upstream origin main` เพื่อส่งการคอมมิตไปยัง repository บน GitHub ของคุณ
   
 ### แหล่งอ้างอิง
 - [Installing from CLI](https://docs.strapi.io/dev-docs/installation/cli)
+
+## นำ Strapi Project ขึ้นบน EC2
+**EC2 Instance Spec**
+- Instance Type : t2.medium
+- Operating System : Ubuntu 24.04
+- Storage : 8 gb
+
+**Security Group Rules**
+- Type: `SSH`, Protocol: `TCP`, Port Range `22`, Source: `::/0`
+- Type: `HTTP`, Protocol: `TCP`, Port Range `80`, Source: `0.0.0.0/0, ::/0`
+- Type: `HTTPS`, Protocol: `TCP`, Port Range `443`, Source: `0.0.0.0/0, ::/0`
+- Type: `Custom TCP Rule`, Protocol: `TCP,` Port Range `1337`, Source: `0.0.0.0/0`
+
+**วิธีการนำขึ้นบน EC2**
+1. ทำการเข้าถึง EC2 Instance ที่สร้างด้วย SSH (เช่น `ssh -i "StrapiKey.pem" ubuntu@ec2-54-226-105-3.compute-1.amazonaws.com`)
+2. รันคำสั่งต่อไปนี้เพื่อติดตั้ง Nodejs
+
+   
+   ```
+   sudo apt update
+   ```
+   ```
+   sudo apt install unzip
+   ```
+   ```
+   curl -fsSL https://fnm.vercel.app/install | bash
+   ```
+   ```
+   source ~/.bashrc
+   ```
+   ```
+   fnm use --install-if-missing 20
+   ```
+   ```
+   node -v && npm -v
+   ```
+   หลังจากรันคำสั่ง `node -v && npm -v` แล้วขึ้นตัวเลขอย่างเช่น `v20.x` และ `v10.x` เป็นอันว่าติดตั้ง nodejs เสร็จสมบูรณ์
+
+
+ 3. ตั้งค่า default directory ของ npm
+ ```
+ cd ~
+ ```
+ ```
+ mkdir ~/.npm-global
+ ```
+ ```
+ npm config set prefix '~/.npm-global'
+ ```
+ สร้างหรือแก้ไขไฟล์ `~/.profile`
+ ```
+ sudo nano ~/.profile
+ ```
+ เพิ่มส่วนด้านล่างนี้ลงบนท้ายสุดของไฟล์ `~/.profile`
+ ```
+ # set PATH so global node modules install without permission issues
+ export PATH=~/.npm-global/bin:$PATH
+ ```
+ อัพเดทตัวแปรของระบบ
+ ```
+ source ~/.profile
+ ```
+
+ 4. ตรวจสอบว่ามี Git อยู่บน EC2 Instance ด้วยคำสั่ง `git --version` หากไม่มีให้ติดตั้งด้วยคำสั่ง `sudo apt install git -y`
+
+ 5. คัดลอก repository ของ Strapi project บน GitHub ลงบน EC2 Instance ด้วยคำสั่ง
+ ```
+ git clone <your repository url>
+ ```
+
+ 6. `cd` เข้าสู่โฟลเดอร์ที่คัดลอกมา
+ 7.  รันคำสั่งต่อไปนี้
+ ```  
+ npm install
+ ```
+ ```
+ NODE_ENV=production npm run build
+ ```
+ 8. ในโฟลเดอร์ของ Strapi ให้สร้างไฟล์ `.env` 
+ ```
+ touch .env
+ ```
+ 9. คัดลอกเนื้อหาจากไฟล์ `.env` ที่อยู่บนเครื่องของคุณมาวางลงบนไฟล์ `.env` ที่อยู่ใน EC2 Instance ในส่วนท้ายไฟล์ให้เพิ่ม `NODE_ENV=production`
+ ```
+ nano .env
+ ```
+ 10. รันเซิร์ฟเวอร์ด้วยคำสั่ง
+ ```
+ npm start
+ ```
+### แหล่งอ้างอิง
+[Strapi|Amazon AWS - Deployment](https://docs.strapi.io/dev-docs/deployment/amazon-aws)
+
